@@ -2,7 +2,21 @@
 
 namespace StringHelpers;
 
+use ArrayUtils\Arrays;
+
 	class Str {
+
+		static function empty($string) {
+
+			$string = trim($string);
+
+			if (!empty($string) && !ctype_space($string)) {
+				return false;
+			}
+
+			return true;
+
+		}
 
 		// CamelCase
 		static function camelCase($string) {
@@ -14,6 +28,24 @@ namespace StringHelpers;
 			}
 
 			return ucfirst($string);
+
+		}
+
+		// First Last
+		static function humanize($str) {
+			return ucwords(Str::snakeCase($str, " "));
+		}
+
+		// Returns normalized name for a path
+		// string_helpers/str => StringHelpers\Str
+		static function normalize($path) {
+
+			$components = new Arrays(explode("/", $path));
+			$module = $components->map(function($each) {
+				return Str::camelCase(lcfirst($each));
+			})->implode("\\");
+
+			return $module;
 
 		}
 
@@ -37,20 +69,23 @@ namespace StringHelpers;
 			$string = lcfirst($string);
 			preg_match_all("/[A-Z]/", $string, $matches);
 			foreach ($matches[0] as $match) {
-				$string = str_replace($match, "_".strtolower($match), $string);
+				$string = str_replace($match, $delimiter.strtolower($match), $string);
 			}
 
 			return $string;
 
 		}
 
-		static function empty($string) {
+		// Returns storable name for a class or a namespace
+		// StringHelpers\Str => string_helpers/str
+		static function storable($module) {
 
-			if (!empty($string) && !ctype_space($string)) {
-				return false;
-			}
+			$components = new Arrays(explode("\\", $module));
+			$path = $components->map(function($each) {
+				return Str::snakeCase(lcfirst($each));
+			})->implode("/");
 
-			return true;
+			return $path;
 
 		}
 

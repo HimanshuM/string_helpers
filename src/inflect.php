@@ -161,14 +161,14 @@ use ArrayUtils\Arrays;
 
 		}
 
-		public function toSentence($words, $conjuction = "and") {
+		public static function toSentence($words, $conjuction = "and") {
 
 			if (!is_a($words, Arrays::class)) {
 				$words = new Arrays($words);
 			}
 
 			if ($words->length == 1) {
-				return $words;
+				return $words->implode("");
 			}
 			$sentence = $words->firstFew(-1)->implode(", ");
 			$sentence .= " $conjuction ".$words->last;
