@@ -89,6 +89,13 @@ use ArrayUtils\Arrays;
 
 		}
 
+		static function componentName($class, $delimiter = "\\") {
+
+			$components = explode($delimiter, $class);
+			return array_pop($components);
+
+		}
+
 	}
 
 ?>

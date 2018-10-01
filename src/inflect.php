@@ -91,7 +91,7 @@ use ArrayUtils\Arrays;
 		public static function pluralize($string) {
 
 			// save some time in the case that singular and plural are the same
-			if (in_array(strtolower($string), self::$uncountable)) {
+			if (in_array(strtolower($string), self::$uncountable) || empty($string)) {
 				return $string;
 			}
 
@@ -122,7 +122,7 @@ use ArrayUtils\Arrays;
 		public static function singularize($string) {
 
 			// save some time in the case that singular and plural are the same
-			if (in_array(strtolower($string), self::$uncountable)) {
+			if (in_array(strtolower($string), self::$uncountable) || empty($string)) {
 				return $string;
 			}
 
